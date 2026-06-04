@@ -653,7 +653,7 @@ function FridayApp({ recorderFactory = DEFAULT_RECORDER_FACTORY }: FridayAppProp
       <div className="window-frame">
         <div className="boot-shell">
           <section className="boot-panel">
-            <span className="orb orb-small" />
+            <FridayBootVisual state="offline" />
             <h1>Friday</h1>
             <p className="boot-copy">
               Desktop bridge unavailable. Open Friday through the Electron desktop client so the agent, VPN,
@@ -2776,6 +2776,7 @@ function FridayAppShell({ recorderFactory = DEFAULT_RECORDER_FACTORY }: FridayAp
         </header>
         <div className="boot-shell">
           <section className="boot-panel">
+            <FridayBootVisual state="ready" />
             <h1>{copy.appName}</h1>
             <p className="boot-copy">
               {preferences.language === 'ru'
@@ -2816,6 +2817,7 @@ function FridayAppShell({ recorderFactory = DEFAULT_RECORDER_FACTORY }: FridayAp
         </header>
         <div className="boot-shell">
           <section className="boot-panel">
+            <FridayBootVisual state="loading" />
             <h1>{copy.appName}</h1>
             <p className="boot-copy">
               {preferences.language === 'ru'
@@ -3192,7 +3194,11 @@ function FridayAppShell({ recorderFactory = DEFAULT_RECORDER_FACTORY }: FridayAp
               ) : (
                 <div className="empty-state">
                   <div className="welcome-card">
-                    <span className="orb orb-small" />
+                    <div className="welcome-orb-stage" aria-hidden="true">
+                      <span className="welcome-orbit welcome-orbit-outer" />
+                      <span className="welcome-orbit welcome-orbit-inner" />
+                      <span className="orb orb-welcome" />
+                    </div>
                     <div>
                       <p className="welcome-title">{copy.welcomeTitle}</p>
                       <p>{copy.welcomeBody}</p>
@@ -4626,6 +4632,19 @@ function AgentProgressCard({
         </div>
       </div>
     </article>
+  )
+}
+
+function FridayBootVisual({ state }: { state: 'loading' | 'ready' | 'offline' }) {
+  return (
+    <div className={`boot-visual boot-visual-${state}`} aria-hidden="true">
+      <span className="boot-orbit boot-orbit-a" />
+      <span className="boot-orbit boot-orbit-b" />
+      <span className="boot-orbit boot-orbit-c" />
+      <span className="boot-spark boot-spark-a" />
+      <span className="boot-spark boot-spark-b" />
+      <span className="orb orb-boot" />
+    </div>
   )
 }
 
