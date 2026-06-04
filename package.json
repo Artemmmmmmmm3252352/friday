@@ -1,0 +1,199 @@
+{
+  "name": "friday",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Friday desktop assistant with bundled OpenClaw runtime",
+  "author": "X-VEXTA",
+  "main": "dist-electron/main.js",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "dev:desktop": "vite",
+    "build": "npm run build:desktop",
+    "build:desktop": "tsc -b && vite build && npm run build:server",
+    "build:server": "tsc -p tsconfig.server.json && node ./scripts/fix-dist-server-imports.mjs",
+    "start:api": "tsx apps/api/src/server.ts",
+    "start:worker": "tsx apps/worker/src/worker.ts",
+    "prepare:openclaw-runtime": "node ./scripts/prepare-openclaw-runtime.mjs",
+    "prepare:whisper-model": "node ./scripts/prepare-whisper-model.mjs",
+    "prepare:portable-python": "node ./scripts/prepare-portable-python.mjs",
+    "prepare:backend-runtime": "node ./scripts/prepare-backend-runtime.mjs",
+    "prepare:runtime-env": "node ./scripts/prepare-runtime-env.mjs",
+    "verify:installer-assets": "node ./scripts/verify-installer-assets.mjs",
+    "prepare:installer-assets": "npm run prepare:openclaw-runtime && npm run prepare:whisper-model && npm run prepare:portable-python && npm run prepare:backend-runtime && npm run prepare:runtime-env && npm run verify:installer-assets",
+    "build:exe": "npm run build && npm run prepare:installer-assets && electron-builder --dir --win",
+    "build:installer": "npm run build && npm run prepare:installer-assets && electron-builder --win nsis",
+    "sign:release": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/sign-release.ps1",
+    "build:signed-installer": "npm run build:installer && npm run sign:release",
+    "package:portable-release": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/package-portable-release.ps1",
+    "build:signed-portable": "npm run build:exe && npm run sign:release && npm run package:portable-release",
+    "build:openclaw-installer": "npm run prepare:openclaw-runtime && node ./scripts/build-openclaw-installer.mjs",
+    "build:installers": "npm run build:installer && npm run build:openclaw-installer",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start": "electron .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "fastify": "^5.6.1",
+    "pg": "^8.16.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sherpa-onnx-node": "^1.12.29",
+    "sherpa-onnx-win-x64": "^1.12.28"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "electron-builder": "^26.0.12",
+    "electron": "^41.0.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "jsdom": "^28.1.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "tsx": "^4.20.6",
+    "vite": "^7.3.1",
+    "vite-plugin-electron": "^0.29.0",
+    "vitest": "^4.0.18"
+  },
+  "build": {
+    "appId": "com.xvexta.friday",
+    "productName": "Friday",
+    "copyright": "Copyright © X-VEXTA",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "dist-server/**",
+      "openclaw-plugins/**",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/sherpa-onnx-node/**/*",
+      "node_modules/sherpa-onnx-win-x64/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "voice-runtime",
+        "to": "voice-runtime",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "beamng-bridge",
+        "to": "beamng-bridge",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "openclaw-plugins",
+        "to": "openclaw-plugins",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "dist-server",
+        "to": "dist-server",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/backend-node_modules",
+        "to": "node_modules",
+        "filter": [
+          "**/*",
+          "**/.*"
+        ]
+      },
+      {
+        "from": "vendor/friday-runtime.env",
+        "to": "friday-runtime.env",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/openclaw-runtime/node_modules",
+        "to": "openclaw-runtime/node_modules",
+        "filter": [
+          "**/*",
+          "**/.*"
+        ]
+      },
+      {
+        "from": "vendor/openclaw-runtime/node.bin",
+        "to": "openclaw-runtime/node.bin",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/openclaw-runtime/package.json",
+        "to": "openclaw-runtime/package.json",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/openclaw-runtime/package-lock.json",
+        "to": "openclaw-runtime/package-lock.json",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/portable-python",
+        "to": "portable-python",
+        "filter": [
+          "**/*",
+          "**/.*"
+        ]
+      },
+      {
+        "from": "vendor/sherpa-model",
+        "to": "sherpa-model",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "verifyUpdateCodeSignature": false,
+      "target": [
+        "dir",
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Friday"
+    }
+  }
+}

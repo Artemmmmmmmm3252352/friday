@@ -1,0 +1,24 @@
+{
+  "id": "friday-backend",
+  "name": "Friday Backend",
+  "description": "Friday workspace tools for notes, projects, tasks, reminders, and inbox actions.",
+  "skills": ["./skills"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "description": "Friday backend base URL. Defaults to the local backend config or http://127.0.0.1:3010."
+      },
+      "sessionPath": {
+        "type": "string",
+        "description": "Absolute path to Friday backend-session.json. Defaults to %APPDATA%\\\\friday\\\\state\\\\backend-session.json."
+      },
+      "configPath": {
+        "type": "string",
+        "description": "Absolute path to Friday backend-config.json. Defaults to %APPDATA%\\\\friday\\\\state\\\\backend-config.json."
+      }
+    }
+  }
+}

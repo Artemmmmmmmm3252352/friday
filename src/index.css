@@ -1,0 +1,26 @@
+html {
+  min-height: 100%;
+  height: 100%;
+  scrollbar-color: rgba(126, 191, 255, 0.4) rgba(6, 15, 23, 0.9);
+}
+
+body {
+  min-height: 100vh;
+  height: 100%;
+  font-family:
+    'Manrope',
+    'Sora',
+    'Segoe UI Variable Text',
+    'Trebuchet MS',
+    sans-serif;
+  background: var(--page-bg, linear-gradient(180deg, #10141b, #0a0d12 70%));
+  color: var(--text-main, #f5f8ff);
+  overflow: hidden;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+#root {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}

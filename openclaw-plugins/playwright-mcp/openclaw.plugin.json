@@ -1,0 +1,41 @@
+{
+  "id": "playwright-mcp",
+  "name": "Playwright MCP",
+  "description": "Browser automation tools for opening sites, clicking elements, filling forms, and extracting page data with Playwright.",
+  "skills": ["./skills"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "browserChannel": {
+        "type": "string",
+        "enum": ["msedge", "chrome", "chromium"],
+        "description": "Preferred browser channel. Defaults to msedge and falls back to chrome."
+      },
+      "headless": {
+        "type": "boolean",
+        "description": "Run the browser headlessly. Defaults to false."
+      },
+      "userDataDir": {
+        "type": "string",
+        "description": "Absolute path for the persistent Playwright user profile."
+      },
+      "navigationTimeoutMs": {
+        "type": "number",
+        "description": "Navigation timeout in milliseconds. Defaults to 60000."
+      },
+      "actionTimeoutMs": {
+        "type": "number",
+        "description": "Action timeout in milliseconds. Defaults to 15000."
+      },
+      "viewportWidth": {
+        "type": "number",
+        "description": "Browser viewport width in pixels. Defaults to 1440."
+      },
+      "viewportHeight": {
+        "type": "number",
+        "description": "Browser viewport height in pixels. Defaults to 900."
+      }
+    }
+  }
+}
