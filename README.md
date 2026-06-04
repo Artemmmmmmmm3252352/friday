@@ -83,8 +83,8 @@ Generated installers and runtime assets are excluded from the repository.
 - Telegram remote commands are accepted only from paired users.
 - Secrets, local sessions, generated runtimes, and user snapshots must never be committed.
 
-Please report security issues privately to the maintainers rather than opening a
-public issue with sensitive details.
+Please read [SECURITY.md](SECURITY.md) before reporting a vulnerability. Contributions
+are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for the development and review flow.
 
 ## Status
 
