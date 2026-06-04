@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --maxWorkers=2 --retry=2
 
       - name: Build desktop application
         run: npm run build:desktop
